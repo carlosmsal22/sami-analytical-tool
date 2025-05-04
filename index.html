@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,16 +25,21 @@
       background-color: var(--bg-light);
       color: var(--text-light);
     }
-    .toggle-btn {
+    .toggle-btn, .lang-btn {
       position: absolute;
       top: 1rem;
-      right: 1rem;
       background-color: #fdb913;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 10px;
       font-weight: bold;
       cursor: pointer;
+    }
+    .toggle-btn {
+      right: 1rem;
+    }
+    .lang-btn {
+      right: 8rem;
     }
     h1 {
       color: #00d4ff;
@@ -95,76 +100,107 @@
   </style>
 </head>
 <body>
-  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
-  <h1>Innovation Scout - Prompt Menu</h1>
+  <button class="toggle-btn" onclick="toggleMode()">Modo Claro/Oscuro</button>
+  <button class="lang-btn" onclick="toggleLang()">Español / English</button>
+  <h1 id="main-title">Innovation Scout - Menú de Prompts</h1>
   <div class="search-box">
-    <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Search prompts...">
+    <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
   </div>
-  <div class="grid" id="promptGrid">
-    <!-- Cards injected here by script -->
-  </div>
+  <div class="grid" id="promptGrid"></div>
   <script>
-    const prompts = [
-      {
-        category: "🔍 Discover Unmet Needs",
-        items: [
+    let currentLang = 'es';
+    const prompts = {
+      es: [
+        { category: "🔍 Descubrir Necesidades No Satisfechas", items: [
+          "Identifica necesidades no satisfechas en la industria del bienestar",
+          "¿Qué puntos de dolor existen hoy en la banca digital?",
+          "Ayúdame a analizar retroalimentación para detectar oportunidades ocultas"
+        ]},
+        { category: "💡 Generar Nuevos Conceptos", items: [
+          "Ideas innovadoras para viajeros Gen Z",
+          "Servicios con IA para educación remota",
+          "Usa Blue Ocean Strategy para repensar los kits de comida"
+        ]},
+        { category: "🧠 Aplicar Marcos Estratégicos", items: [
+          "Usa Jobs to Be Done para mejorar una app de productividad",
+          "Aplica el modelo Kano a una tienda online",
+          "Utiliza TRIZ para resolver cuellos de botella logísticos"
+        ]},
+        { category: "📈 Explorar Tendencias Emergentes", items: [
+          "Tendencias de innovación 2025 en energía renovable",
+          "Tres señales débiles en la industria de la moda",
+          "Aplicaciones transversales de la IA generativa"
+        ]},
+        { category: "🛠 Prototipar y Validar", items: [
+          "Plan de prueba para servicio por suscripción",
+          "MVP rápido para un coach de bienestar con IA",
+          "Ideas para validar startups en etapa temprana"
+        ]},
+        { category: "🌐 Inspiración Intersectorial", items: [
+          "¿Qué puede aprender el retail del FinTech?",
+          "Aplica Design Thinking de salud a educación",
+          "Ideas del gaming para aprendizaje virtual"
+        ]}
+      ],
+      en: [
+        { category: "🔍 Discover Unmet Needs", items: [
           "Identify unmet customer needs in the wellness industry",
           "What pain points exist in digital banking today?",
           "Help me analyze user feedback to spot hidden opportunities"
-        ]
-      },
-      {
-        category: "💡 Brainstorm New Concepts",
-        items: [
+        ]},
+        { category: "💡 Brainstorm New Concepts", items: [
           "Generate 5 innovative product ideas for Gen Z travelers",
           "What are AI-powered services for remote education?",
           "Use Blue Ocean Strategy to rethink meal kit delivery"
-        ]
-      },
-      {
-        category: "🧠 Apply Innovation Frameworks",
-        items: [
+        ]},
+        { category: "🧠 Apply Innovation Frameworks", items: [
           "Use Jobs to Be Done to improve our productivity app",
           "Apply the Kano Model to features in my eCommerce platform",
           "Show me how TRIZ can solve bottlenecks in logistics"
-        ]
-      },
-      {
-        category: "📈 Explore Emerging Trends",
-        items: [
+        ]},
+        { category: "📈 Explore Emerging Trends", items: [
           "What are 2025 innovation trends in renewable energy?",
           "Give me 3 weak signals in the fashion industry",
           "Analyze cross-industry applications of generative AI"
-        ]
-      },
-      {
-        category: "🛠 Prototype and Test",
-        items: [
+        ]},
+        { category: "🛠 Prototype and Test", items: [
           "Create a user testing plan for a new subscription service",
           "What’s a quick MVP for an AI-powered wellness coach?",
           "Suggest ways to validate early-stage startup ideas"
-        ]
-      },
-      {
-        category: "🌐 Cross-Sector Inspiration",
-        items: [
+        ]},
+        { category: "🌐 Cross-Sector Inspiration", items: [
           "What can retail learn from FinTech innovation?",
           "Apply design thinking from healthcare to education",
           "Transfer ideas from gaming to virtual learning platforms"
-        ]
-      }
-    ];
+        ]}
+      ]
+    };
 
     const container = document.getElementById('promptGrid');
+    const title = document.getElementById('main-title');
 
-    prompts.forEach(({ category, items }) => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      const header = `<div class="category">${category}</div>`;
-      const links = items.map(item => `<li><a href="https://chatgpt.com/g/g-NHiNlyxxG-innovation-scout">${item}</a></li>`).join('');
-      card.innerHTML = `${header}<ul>${links}</ul>`;
-      container.appendChild(card);
-    });
+    function renderPrompts(lang) {
+      container.innerHTML = '';
+      title.textContent = lang === 'es' ? 'Innovation Scout - Menú de Prompts' : 'Innovation Scout - Prompt Menu';
+      prompts[lang].forEach(({ category, items }) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const header = `<div class="category">${category}</div>`;
+        const links = items.map(item => `<li><a href="https://chatgpt.com/g/g-NHiNlyxxG-innovation-scout">${item}</a></li>`).join('');
+        card.innerHTML = `${header}<ul>${links}</ul>`;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
+      renderPrompts(currentLang);
+    }
 
     function filterPrompts() {
       const input = document.getElementById('searchInput').value.toLowerCase();
@@ -175,9 +211,7 @@
       }
     }
 
-    function toggleMode() {
-      document.body.classList.toggle('light-mode');
-    }
+    renderPrompts(currentLang);
   </script>
 </body>
 </html>
