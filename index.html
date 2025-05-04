@@ -4,118 +4,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Innovation Scout - UI Upgrade</title>
-  <link rel="icon" href="data:," />
+  <title>Innovation Scout - Analytics</title>
+  <script defer data-domain="carlosmsal22.github.io/innovationscout" src="https://plausible.io/js/script.js"></script>
   <style>
-    :root {
-      --primary: #0a2540;
-      --accent: #00d4ff;
-      --highlight: #fdb913;
-      --card-dark: #1c2b45;
-      --card-light: #f9f9f9;
+    body { font-family: sans-serif; padding: 2rem; background: #0a2540; color: white; }
+    .filter-btn, .lang-btn, .toggle-btn {
+      padding: 0.4rem 1rem; margin: 0.2rem;
+      border: none; border-radius: 8px;
+      background: #00d4ff; color: #0a2540;
+      font-weight: bold; cursor: pointer;
     }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background: var(--primary);
-      color: white;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .light-mode {
-      background: white;
-      color: black;
-    }
-    h1 {
-      text-align: center;
-      color: var(--accent);
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .toggle-btn, .lang-btn {
-      position: fixed;
-      top: 1rem;
-      padding: 0.6rem 1.2rem;
-      font-weight: bold;
-      border-radius: 12px;
-      background-color: var(--highlight);
-      border: none;
-      cursor: pointer;
-    }
-    .toggle-btn { right: 1rem; }
-    .lang-btn { right: 8rem; }
-    .search-box {
-      display: flex;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-    .search-box input {
-      width: 60%;
-      padding: 0.6rem;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: none;
-    }
-    .filters {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
-    .filter-btn {
-      padding: 0.5rem 1.1rem;
-      background-color: var(--accent);
-      color: var(--primary);
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .card {
-      background: var(--card-dark);
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease, background-color 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      background-color: #22314f;
-    }
-    .light-mode .card {
-      background: var(--card-light);
-    }
-    .category {
-      font-weight: bold;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: var(--highlight);
-    }
-    ul { padding-left: 1.2rem; list-style-type: none; }
-    li { margin-bottom: 0.4rem; }
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    a:hover { text-decoration: underline; }
+    .grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-top: 2rem; }
+    .card { background: #1c2b45; padding: 1rem; border-radius: 12px; }
+    .category { color: #fdb913; font-weight: bold; margin-bottom: 0.5rem; }
+    ul { list-style: none; padding-left: 1rem; }
+    li { margin-bottom: 0.5rem; }
+    a { color: #00d4ff; text-decoration: none; }
   </style>
 </head>
 <body>
-  <button class="toggle-btn" onclick="toggleMode()">Modo Claro/Oscuro</button>
-  <button class="lang-btn" onclick="toggleLang()">Español / English</button>
-  <h1 id="main-title">Innovation Scout - Menú de Prompts</h1>
-
-  <div class="search-box">
-    <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
-  </div>
-
+  <button class="lang-btn" onclick="trackLangToggle()">Español / English</button>
+  <button class="toggle-btn" onclick="document.body.classList.toggle('light')">Modo Claro/Oscuro</button>
+  <h1>Innovation Scout - Menú de Prompts</h1>
   <div class="filters" id="categoryFilters"></div>
   <div class="grid" id="promptGrid"></div>
 
@@ -125,27 +35,27 @@
 
     const prompts = {
       es: [
-        { category: "🔍 Descubrir Necesidades No Satisfechas", key: "needs", items: [
-          "Identifica necesidades no satisfechas en la industria del bienestar",
-          "¿Qué puntos de dolor existen hoy en la banca digital?",
-          "Ayúdame a analizar retroalimentación para detectar oportunidades ocultas"
+        { category: "🔍 Descubrir Necesidades", key: "needs", items: [
+          "Identifica necesidades no satisfechas en bienestar",
+          "¿Qué puntos de dolor hay en banca digital?",
+          "Detectar oportunidades ocultas en retroalimentación"
         ]},
-        { category: "💡 Generar Nuevos Conceptos", key: "concepts", items: [
-          "Ideas innovadoras para viajeros Gen Z",
-          "Servicios con IA para educación remota",
-          "Usa Blue Ocean Strategy para repensar los kits de comida"
+        { category: "💡 Nuevos Conceptos", key: "concepts", items: [
+          "Ideas innovadoras para Gen Z",
+          "Servicios con IA para educación",
+          "Repensar kits de comida"
         ]}
       ],
       en: [
         { category: "🔍 Discover Unmet Needs", key: "needs", items: [
-          "Identify unmet customer needs in the wellness industry",
-          "What pain points exist in digital banking today?",
-          "Help me analyze user feedback to spot hidden opportunities"
+          "Identify unmet customer needs in wellness",
+          "Pain points in digital banking today",
+          "Analyze feedback to spot hidden opportunities"
         ]},
-        { category: "💡 Brainstorm New Concepts", key: "concepts", items: [
-          "Generate 5 innovative product ideas for Gen Z travelers",
-          "What are AI-powered services for remote education?",
-          "Use Blue Ocean Strategy to rethink meal kit delivery"
+        { category: "💡 New Concept Ideas", key: "concepts", items: [
+          "Innovative product ideas for Gen Z travelers",
+          "AI-powered services for education",
+          "Rethink meal kit delivery"
         ]}
       ]
     };
@@ -156,13 +66,13 @@
       const allBtn = document.createElement('button');
       allBtn.className = 'filter-btn';
       allBtn.innerText = lang === 'es' ? 'Todos' : 'All';
-      allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); };
+      allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); plausible('filter-click', { props: { category: 'all' }}); };
       container.appendChild(allBtn);
       prompts[lang].forEach(section => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         btn.innerText = section.category;
-        btn.onclick = () => { activeCategory = section.key; renderPrompts(lang); };
+        btn.onclick = () => { activeCategory = section.key; renderPrompts(lang); plausible('filter-click', { props: { category: section.key } }); };
         container.appendChild(btn);
       });
     }
@@ -170,36 +80,22 @@
     function renderPrompts(lang) {
       const grid = document.getElementById('promptGrid');
       grid.innerHTML = '';
-      document.getElementById('main-title').textContent = lang === 'es' ? 'Innovation Scout - Menú de Prompts' : 'Innovation Scout - Prompt Menu';
       prompts[lang].forEach(({ category, items, key }) => {
         if (activeCategory !== 'all' && activeCategory !== key) return;
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-        const links = items.map(p => `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout">${p}</a></li>`).join('');
+        const links = items.map(item => `<li><a onclick="plausible('prompt-click', {props:{lang:'${lang}',cat:'${key}'}})" target="_blank" href='https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout'>${item}</a></li>`).join('');
         card.innerHTML = `${header}<ul>${links}</ul>`;
         grid.appendChild(card);
       });
     }
 
-    function filterPrompts() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.getElementsByClassName('card');
-      for (let card of cards) {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(input) ? '' : 'none';
-      }
-    }
-
-    function toggleLang() {
+    function trackLangToggle() {
       currentLang = currentLang === 'es' ? 'en' : 'es';
-      document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
       renderFilters(currentLang);
       renderPrompts(currentLang);
-    }
-
-    function toggleMode() {
-      document.body.classList.toggle('light-mode');
+      plausible('lang-toggle', { props: { to: currentLang } });
     }
 
     renderFilters(currentLang);
