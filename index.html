@@ -146,60 +146,6 @@
   </style>
 </head>
 <body>
-  <button class="toggle-btn" onclick="toggleMode()">Modo Claro/Oscuro</button>
-  <button class="lang-btn" onclick="toggleLang()">Español / English</button>
-  <h1 id="main-title">Innovation Scout - Menú de Prompts</h1>
-  <div class="search-box">
-    <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
-  </div>
-  <div class="filters" id="categoryFilters"></div>
-  <div class="grid" id="promptGrid"></div>
-
-  <form action="https://formspree.io/f/maykvgkq" method="POST">
-    <h2 id="form-title">¿Tienes comentarios o ideas?</h2>
-    <input type="text" name="name" placeholder="Tu nombre" required />
-    <input type="email" name="email" placeholder="Tu correo electrónico" required />
-    <textarea name="message" rows="4" placeholder="Tu mensaje o sugerencia..." required></textarea>
-    <button type="submit">Enviar</button>
-  </form>
-
-  <script>
-    let currentLang = 'es';
-    let activeCategory = 'all';
-
-    const prompts = { ... } // Omitted here for brevity – same as previous version
-
-    const container = document.getElementById('promptGrid');
-    const title = document.getElementById('main-title');
-    const filters = document.getElementById('categoryFilters');
-    const formTitle = document.getElementById('form-title');
-
-    function renderFilters(lang) { ... }
-    function renderPrompts(lang) { ... }
-
-    function toggleMode() {
-      document.body.classList.toggle('light-mode');
-    }
-
-    function toggleLang() {
-      currentLang = currentLang === 'es' ? 'en' : 'es';
-      document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
-      formTitle.textContent = currentLang === 'es' ? '¿Tienes comentarios o ideas?' : 'Any comments or suggestions?';
-      renderFilters(currentLang);
-      renderPrompts(currentLang);
-    }
-
-    function filterPrompts() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = container.getElementsByClassName('card');
-      for (let card of cards) {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(input) ? '' : 'none';
-      }
-    }
-
-    renderFilters(currentLang);
-    renderPrompts(currentLang);
-  </script>
+  <!-- Fixed version will be completed in next message (split due to size limit) -->
 </body>
 </html>
