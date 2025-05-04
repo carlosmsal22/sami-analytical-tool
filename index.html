@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Innovation Scout - Prompt Menu</title>
+  <link rel="icon" href="data:," />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #0a2540;
+      color: #fff;
+    }
+    .light-mode { background: #fff; color: #000; }
+    .toggle-btn, .lang-btn {
+      position: fixed; top: 1rem;
+      background: #fdb913; border: none;
+      padding: 0.5rem 1rem; font-weight: bold;
+      border-radius: 10px; cursor: pointer;
+    }
+    .toggle-btn { right: 1rem; }
+    .lang-btn { right: 8rem; }
+    h1 { color: #00d4ff; text-align: center; }
+    .search-box { display: flex; justify-content: center; margin-top: 1rem; }
+    .search-box input {
+      width: 60%; padding: 0.6rem;
+      border-radius: 10px; border: none;
+    }
+    .filters {
+      display: flex; justify-content: center;
+      flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
+    }
+    .filter-btn {
+      background: #00d4ff; color: #0a2540;
+      border: none; padding: 0.4rem 1rem;
+      border-radius: 8px; font-weight: bold;
+      cursor: pointer;
+    }
+    .grid {
+      display: grid; gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      margin-top: 2rem;
+    }
+    .card {
+      background: #1c2b45; border-radius: 16px;
+      padding: 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: scale(1.03); }
+    .category { font-weight: bold; font-size: 1.1rem; margin-bottom: 0.6rem; color: #fdb913; }
+    ul { padding-left: 1.2rem; list-style: none; }
+    li { margin-bottom: 0.4rem; line-height: 1.5; }
+    a { color: #00d4ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    form {
+      max-width: 500px; margin: 3rem auto;
+      background: #1c2b45; border-radius: 16px;
+      padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    form h2 { text-align: center; color: #fdb913; }
+    form input, form textarea {
+      width: 100%; padding: 0.6rem; margin-bottom: 1rem;
+      border: none; border-radius: 8px;
+    }
+    form button {
+      width: 100%; background: #00d4ff;
+      color: #0a2540; font-weight: bold;
+      padding: 0.6rem; border: none;
+      border-radius: 10px; cursor: pointer;
+    }
+    #chat-button {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: #00d4ff; color: #0a2540;
+      border: none; padding: 0.8rem 1.2rem;
+      border-radius: 50px; font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    #chat-iframe {
+      display: none; position: fixed;
+      bottom: 5rem; right: 1.5rem;
+      width: 350px; height: 500px;
+      border: none; border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" onclick="toggleMode()">Modo Claro/Oscuro</button>
+  <button class="lang-btn" onclick="toggleLang()">Español / English</button>
+  <h1 id="main-title">Innovation Scout - Menú de Prompts</h1>
+  <div class="search-box">
+    <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
+  </div>
+  <div class="filters" id="categoryFilters"></div>
+  <div class="grid" id="promptGrid"></div>
+  <form action="https://formspree.io/f/maykvgkq" method="POST">
+    <h2 id="form-title">¿Tienes comentarios o ideas?</h2>
+    <input type="text" name="name" placeholder="Tu nombre" required />
+    <input type="email" name="email" placeholder="Tu correo electrónico" required />
+    <textarea name="message" rows="4" placeholder="Tu mensaje o sugerencia..." required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+  <button id="chat-button" onclick="toggleIframe()">Ask Innovation Scout</button>
+  <iframe id="chat-iframe" src="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" allow="clipboard-write"></iframe>
+  <script>
+    let currentLang = 'es';
+    let activeCategory = 'all';
+    const prompts = {
+      es: [
+        { category: "🔍 Descubrir Necesidades No Satisfechas", key: "needs", items: [
+          "Identifica necesidades no satisfechas en la industria del bienestar",
+          "¿Qué puntos de dolor existen hoy en la banca digital?",
+          "Ayúdame a analizar retroalimentación para detectar oportunidades ocultas"
+        ]},
+        { category: "💡 Generar Nuevos Conceptos", key: "concepts", items: [
+          "Ideas innovadoras para viajeros Gen Z",
+          "Servicios con IA para educación remota",
+          "Usa Blue Ocean Strategy para repensar los kits de comida"
+        ]},
+        { category: "🧠 Aplicar Marcos Estratégicos", key: "frameworks", items: [
+          "Usa Jobs to Be Done para mejorar una app de productividad",
+          "Aplica el modelo Kano a una tienda online",
+          "Utiliza TRIZ para resolver cuellos de botella logísticos"
+        ]}
+      ],
+      en: [
+        { category: "🔍 Discover Unmet Needs", key: "needs", items: [
+          "Identify unmet customer needs in the wellness industry",
+          "What pain points exist in digital banking today?",
+          "Help me analyze user feedback to spot hidden opportunities"
+        ]},
+        { category: "💡 Brainstorm New Concepts", key: "concepts", items: [
+          "Generate 5 innovative product ideas for Gen Z travelers",
+          "What are AI-powered services for remote education?",
+          "Use Blue Ocean Strategy to rethink meal kit delivery"
+        ]},
+        { category: "🧠 Apply Innovation Frameworks", key: "frameworks", items: [
+          "Use Jobs to Be Done to improve our productivity app",
+          "Apply the Kano Model to features in my eCommerce platform",
+          "Show me how TRIZ can solve bottlenecks in logistics"
+        ]}
+      ]
+    };
+    const container = document.getElementById('promptGrid');
+    const filters = document.getElementById('categoryFilters');
+    function renderFilters(lang) {
+      filters.innerHTML = '';
+      const allBtn = document.createElement('button');
+      allBtn.className = 'filter-btn';
+      allBtn.innerText = lang === 'es' ? 'Todos' : 'All';
+      allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); };
+      filters.appendChild(allBtn);
+      prompts[lang].forEach(section => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.innerText = section.category;
+        btn.onclick = () => { activeCategory = section.key; renderPrompts(lang); };
+        filters.appendChild(btn);
+      });
+    }
+    function renderPrompts(lang) {
+      container.innerHTML = '';
+      document.getElementById('main-title').textContent = lang === 'es' ? 'Innovation Scout - Menú de Prompts' : 'Innovation Scout - Prompt Menu';
+      prompts[lang].forEach(({ category, items, key }) => {
+        if (activeCategory !== 'all' && activeCategory !== key) return;
+        const card = document.createElement('div');
+        card.className = 'card';
+        const header = `<div class="category">${category}</div>`;
+        const links = items.map(item => `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout">${item}</a></li>`).join('');
+        card.innerHTML = `${header}<ul>${links}</ul>`;
+        container.appendChild(card);
+      });
+    }
+    function toggleMode() { document.body.classList.toggle('light-mode'); }
+    function toggleLang() {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
+      document.getElementById('form-title').textContent = currentLang === 'es' ? '¿Tienes comentarios o ideas?' : 'Any comments or suggestions?';
+      renderFilters(currentLang); renderPrompts(currentLang);
+    }
+    function filterPrompts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = container.getElementsByClassName('card');
+      for (let card of cards) {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(input) ? '' : 'none';
+      }
+    }
+    function toggleIframe() {
+      const iframe = document.getElementById('chat-iframe');
+      iframe.style.display = iframe.style.display === 'block' ? 'none' : 'block';
+    }
+    renderFilters(currentLang); renderPrompts(currentLang);
+  </script>
+</body>
+</html>
