@@ -6,42 +6,33 @@
   <title>Innovation Scout</title>
   <script defer data-domain="carlosmsal22.github.io/innovationscout" src="https://plausible.io/js/script.js"></script>
   <style>
-    :root {
-      --primary: #0a2540;
-      --accent: #00d4ff;
-      --highlight: #fdb913;
-      --card-dark: #1c2b45;
-      --card-light: #f9f9f9;
-    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: var(--primary);
-      color: white;
       margin: 0;
       padding: 2rem;
-      transition: background-color 0.3s, color 0.3s;
+      background: #0a2540;
+      color: white;
     }
     .light-mode {
-      background: white;
-      color: black;
-    }
-    h1 {
-      text-align: center;
-      color: var(--accent);
-      margin-bottom: 1rem;
+      background: #ffffff;
+      color: #0a2540;
     }
     .toggle-btn, .lang-btn {
       position: fixed;
       top: 1rem;
-      padding: 0.6rem 1.2rem;
-      font-weight: bold;
-      border-radius: 12px;
-      background-color: var(--highlight);
+      background-color: #fdb913;
       border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-weight: bold;
       cursor: pointer;
     }
     .toggle-btn { right: 1rem; }
     .lang-btn { right: 8rem; }
+    h1 {
+      text-align: center;
+      color: #00d4ff;
+    }
     .search-box {
       display: flex;
       justify-content: center;
@@ -57,17 +48,17 @@
     .filters {
       display: flex;
       justify-content: center;
-      gap: 0.5rem;
       flex-wrap: wrap;
       margin-top: 1rem;
+      gap: 0.5rem;
     }
     .filter-btn {
-      padding: 0.5rem 1.1rem;
-      background-color: var(--accent);
-      color: var(--primary);
+      background-color: #00d4ff;
+      color: #0a2540;
       font-weight: bold;
       border: none;
-      border-radius: 10px;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
       cursor: pointer;
     }
     .grid {
@@ -77,7 +68,7 @@
       margin-top: 2rem;
     }
     .card {
-      background: var(--card-dark);
+      background: #1c2b45;
       padding: 1rem;
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -86,53 +77,19 @@
     .card:hover {
       transform: translateY(-5px);
     }
-    .light-mode .card {
-      background: var(--card-light);
-    }
     .category {
       font-weight: bold;
       font-size: 1.1rem;
       margin-bottom: 0.6rem;
-      color: var(--highlight);
+      color: #fdb913;
     }
-    ul { padding-left: 1.2rem; list-style-type: none; }
+    ul { list-style: none; padding-left: 1.2rem; }
     li { margin-bottom: 0.4rem; }
     a {
-      color: var(--accent);
+      color: #00d4ff;
       text-decoration: none;
     }
     a:hover { text-decoration: underline; }
-    form {
-      max-width: 500px;
-      margin: 3rem auto;
-      background: var(--card-dark);
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    form h2 {
-      text-align: center;
-      color: var(--highlight);
-      margin-bottom: 1rem;
-    }
-    form input, form textarea {
-      width: 100%;
-      padding: 0.6rem;
-      margin-bottom: 1rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    form button {
-      background-color: var(--accent);
-      color: var(--primary);
-      padding: 0.6rem 1rem;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-    }
     #chat-button {
       position: fixed;
       bottom: 1.5rem;
@@ -169,18 +126,14 @@
   </div>
   <div class="filters" id="categoryFilters"></div>
   <div class="grid" id="promptGrid"></div>
-  <form action="https://formspree.io/f/maykvgkq" method="POST">
-    <h2 id="form-title">¿Tienes comentarios o ideas?</h2>
-    <input type="text" name="name" placeholder="Tu nombre" required />
-    <input type="email" name="email" placeholder="Tu correo electrónico" required />
-    <textarea name="message" rows="4" placeholder="Tu mensaje o sugerencia..." required></textarea>
-    <button type="submit">Enviar</button>
-  </form>
+
   <button id="chat-button" onclick="toggleIframe()">Ask Innovation Scout</button>
   <iframe id="chat-iframe" src="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" allow="clipboard-write"></iframe>
+
   <script>
     let currentLang = 'es';
     let activeCategory = 'all';
+
     const prompts = {
       es: [
         { category: "🔍 Descubrir Necesidades No Satisfechas", key: "needs", items: [
@@ -192,6 +145,26 @@
           "Ideas innovadoras para viajeros Gen Z",
           "Servicios con IA para educación remota",
           "Usa Blue Ocean Strategy para repensar los kits de comida"
+        ]},
+        { category: "🧠 Aplicar Marcos Estratégicos", key: "frameworks", items: [
+          "Usa Jobs to Be Done para mejorar una app de productividad",
+          "Aplica el modelo Kano a una tienda online",
+          "Utiliza TRIZ para resolver cuellos de botella logísticos"
+        ]},
+        { category: "📈 Explorar Tendencias Emergentes", key: "trends", items: [
+          "Tendencias de innovación 2025 en energía renovable",
+          "Tres señales débiles en la industria de la moda",
+          "Aplicaciones transversales de la IA generativa"
+        ]},
+        { category: "🛠 Prototipar y Validar", key: "prototype", items: [
+          "Plan de prueba para servicio por suscripción",
+          "MVP rápido para un coach de bienestar con IA",
+          "Ideas para validar startups en etapa temprana"
+        ]},
+        { category: "🌐 Inspiración Intersectorial", key: "inspiration", items: [
+          "¿Qué puede aprender el retail del FinTech?",
+          "Aplica Design Thinking de salud a educación",
+          "Ideas del gaming para aprendizaje virtual"
         ]}
       ],
       en: [
@@ -204,64 +177,88 @@
           "Generate 5 innovative product ideas for Gen Z travelers",
           "What are AI-powered services for remote education?",
           "Use Blue Ocean Strategy to rethink meal kit delivery"
+        ]},
+        { category: "🧠 Apply Innovation Frameworks", key: "frameworks", items: [
+          "Use Jobs to Be Done to improve our productivity app",
+          "Apply the Kano Model to features in my eCommerce platform",
+          "Show me how TRIZ can solve bottlenecks in logistics"
+        ]},
+        { category: "📈 Explore Emerging Trends", key: "trends", items: [
+          "What are 2025 innovation trends in renewable energy?",
+          "Give me 3 weak signals in the fashion industry",
+          "Analyze cross-industry applications of generative AI"
+        ]},
+        { category: "🛠 Prototype and Test", key: "prototype", items: [
+          "Create a user testing plan for a new subscription service",
+          "What’s a quick MVP for an AI-powered wellness coach?",
+          "Suggest ways to validate early-stage startup ideas"
+        ]},
+        { category: "🌐 Cross-Sector Inspiration", key: "inspiration", items: [
+          "What can retail learn from FinTech innovation?",
+          "Apply design thinking from healthcare to education",
+          "Transfer ideas from gaming to virtual learning platforms"
         ]}
       ]
     };
-    const container = document.getElementById('promptGrid');
-    const filters = document.getElementById('categoryFilters');
-    const formTitle = document.getElementById('form-title');
 
     function renderFilters(lang) {
-      filters.innerHTML = '';
+      const container = document.getElementById('categoryFilters');
+      container.innerHTML = '';
       const allBtn = document.createElement('button');
       allBtn.className = 'filter-btn';
       allBtn.innerText = lang === 'es' ? 'Todos' : 'All';
       allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); plausible('filter-click', { props: { category: 'all' }}); };
-      filters.appendChild(allBtn);
+      container.appendChild(allBtn);
       prompts[lang].forEach(section => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         btn.innerText = section.category;
         btn.onclick = () => { activeCategory = section.key; renderPrompts(lang); plausible('filter-click', { props: { category: section.key }}); };
-        filters.appendChild(btn);
+        container.appendChild(btn);
       });
     }
 
     function renderPrompts(lang) {
-      container.innerHTML = '';
-      document.getElementById('main-title').textContent = lang === 'es' ? 'Innovation Scout - Menú de Prompts' : 'Innovation Scout - Prompt Menu';
-      formTitle.textContent = lang === 'es' ? '¿Tienes comentarios o ideas?' : 'Any comments or suggestions?';
+      const grid = document.getElementById('promptGrid');
+      grid.innerHTML = '';
       prompts[lang].forEach(({ category, items, key }) => {
         if (activeCategory !== 'all' && activeCategory !== key) return;
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-        const links = items.map(item => `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" target="_blank" onclick="plausible('prompt-click', {props:{lang:'${lang}',cat:'${key}'}})">${item}</a></li>`).join('');
+        const links = items.map(text => `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" target="_blank" onclick="plausible('prompt-click', {props:{lang:'${lang}',cat:'${key}'}})">${text}</a></li>`).join('');
         card.innerHTML = `${header}<ul>${links}</ul>`;
-        container.appendChild(card);
+        grid.appendChild(card);
       });
     }
 
-    function toggleMode() { document.body.classList.toggle('light-mode'); }
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
+    }
+
     function toggleLang() {
       currentLang = currentLang === 'es' ? 'en' : 'es';
       document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
       renderFilters(currentLang); renderPrompts(currentLang);
       plausible('lang-toggle', { props: { to: currentLang } });
     }
+
     function filterPrompts() {
       const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = container.getElementsByClassName('card');
+      const cards = document.getElementsByClassName('card');
       for (let card of cards) {
         const text = card.textContent.toLowerCase();
         card.style.display = text.includes(input) ? '' : 'none';
       }
     }
+
     function toggleIframe() {
       const iframe = document.getElementById('chat-iframe');
       iframe.style.display = iframe.style.display === 'block' ? 'none' : 'block';
     }
-    renderFilters(currentLang); renderPrompts(currentLang);
+
+    renderFilters(currentLang);
+    renderPrompts(currentLang);
   </script>
 </body>
 </html>
