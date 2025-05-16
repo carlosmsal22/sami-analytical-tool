@@ -1,18 +1,13 @@
-<<<<<<< HEAD
-{
-  "dependencies": {
-    "openai": "^4.98.0"
-=======
-<<<<<<< HEAD
-
-{
+  {
   "name": "innovation-scout",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "openai": "^4.98.0",
+    "react-bootstrap": "^2.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,11 +32,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-=======
-{
-  "dependencies": {
-    "openai": "^4.98.0"
->>>>>>> c147936 (Initial commit with restored package.json and OpenAI support)
->>>>>>> HEAD@{1}
   }
 }
+
