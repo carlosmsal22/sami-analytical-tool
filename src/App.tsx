@@ -26,15 +26,18 @@ const App = () => {
         </button>
       </header>
 
-      {/* Main Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <main className="md:col-span-2 space-y-4">
-          <ChatWindow lang={lang} />
-          <ChatInput lang={lang} />
-        </main>
-        <aside>
+      {/* Chat Workspace Layout */}
+      <div className="flex flex-col h-[calc(100vh-120px)]">
+        <div className="flex flex-1 overflow-hidden">
+          {/* Sidebar */}
           <Sidebar lang={lang} />
-        </aside>
+          
+          {/* Main Chat Area */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <ChatWindow lang={lang} />
+            <ChatInput lang={lang} />
+          </div>
+        </div>
       </div>
     </div>
   );
