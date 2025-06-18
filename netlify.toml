@@ -5,12 +5,7 @@
 
 [functions]
   node_bundler = "esbuild"
-
-[functions."chat"]
-  timeout = 10
-
-[functions."upload"]
-  timeout = 10
+  # ✅ DO NOT include timeout here — that’s the issue
 
 [[redirects]]
   from = "/api/*"
