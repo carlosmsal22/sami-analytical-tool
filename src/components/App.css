@@ -1,0 +1,39 @@
+/* Mobile-first responsive layout */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Sidebar collapses on mobile */
+.sidebar {
+  width: 250px;
+  @media (max-width: 768px) {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 60px; /* Collapsed height */
+    overflow: hidden;
+    transition: height 0.3s;
+  }
+}
+
+.sidebar.expanded {
+  height: 300px; /* Expanded height */
+}
+
+/* Message bubbles adjust width */
+.message {
+  max-width: 90%;
+  @media (min-width: 768px) {
+    max-width: 70%;
+  }
+}
+
+/* Input area sticks to bottom */
+.chat-input {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 10px;
+}

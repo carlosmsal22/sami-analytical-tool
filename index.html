@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Innovation Scout</title>
   <script defer data-domain="carlosmsal22.github.io/innovationscout" src="https://plausible.io/js/script.js"></script>
   <style>
@@ -115,12 +115,43 @@
       z-index: 9999;
       box-shadow: 0 0 10px rgba(0,0,0,0.4);
     }
+    header { 
+      text-align: center; 
+      margin-bottom: 2rem; 
+    }
+    header h1 { 
+      color: #00d4ff; 
+      font-size: 2.2rem; 
+      margin-bottom: 0.5rem; 
+    }
+    header img { 
+      max-width: 400px; 
+      width: 100%; 
+      margin: 1rem auto; 
+      border-radius: 16px; 
+      box-shadow: 0 0 10px rgba(0,0,0,0.3); 
+    }
+    header p { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      font-size: 1.1rem; 
+      padding: 0 1rem; 
+    }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Innovation Scout - Menú de Prompts</h1>
+    <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count.gif" alt="Robotic Panther" />
+    <p>
+      <strong>Innovation Scout</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a 
+      explorar nuevas ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.
+    </p>
+  </header>
+
   <button class="toggle-btn" onclick="toggleMode()">Modo Claro/Oscuro</button>
   <button class="lang-btn" onclick="toggleLang()">Español / English</button>
-  <h1 id="main-title">Innovation Scout - Menú de Prompts</h1>
+  
   <div class="search-box">
     <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
   </div>
@@ -190,7 +221,7 @@
         ]},
         { category: "🛠 Prototype and Test", key: "prototype", items: [
           "Create a user testing plan for a new subscription service",
-          "What’s a quick MVP for an AI-powered wellness coach?",
+          "What's a quick MVP for an AI-powered wellness coach?",
           "Suggest ways to validate early-stage startup ideas"
         ]},
         { category: "🌐 Cross-Sector Inspiration", key: "inspiration", items: [
@@ -261,19 +292,4 @@
     renderPrompts(currentLang);
   </script>
 </body>
-<header style="text-align: center; margin-bottom: 2rem;">
-  <h1 style="color: #00d4ff; font-size: 2.2rem; margin-bottom: 0.5rem;">Innovation Scout - Menú de Prompts</h1>
-
-  <!-- Panther GIF -->
-  <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count.gif" 
-       alt="Robotic Panther" 
-       style="max-width: 400px; width: 100%; margin: 1rem auto; border-radius: 16px; box-shadow: 0 0 10px rgba(0,0,0,0.3);" />
-
-  <!-- Intro Paragraph -->
-  <p style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; padding: 0 1rem;">
-    <strong>Innovation Scout</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a 
-    explorar nuevas ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.
-  </p>
-</header>
-  
 </html>

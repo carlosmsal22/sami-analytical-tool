@@ -1,4 +1,36 @@
 [build]
   command = "npm run build"
+  publish = "dist"
   functions = "netlify/functions"
-  publish = "build"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["busboy", "openai", "@netlify/functions"]
+  timeout = 30 # seconds (max 10 for free tier, consider upgrading for larger files)
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, X-File-Name"
+
+[dev]
+  framework = "create-react-app"
+  targetPort = 3000
+  functionsPort = 9999
+  autoLaunch = true
+
+# Environment variables (reference only - set these in Netlify UI)
+[context.production.environment]
+  OPENAI_KEY = "your_production_key"
+  ASSISTANT_ID = "your_assistant_id"
+
+[context.deploy-preview.environment]
+  OPENAI_KEY = "your_preview_key"
+  ASSISTANT_ID = "your_preview_assistant_id"
