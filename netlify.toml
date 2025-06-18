@@ -5,8 +5,12 @@
 
 [functions]
   node_bundler = "esbuild"
-  timeout = 10  # ✅ Max allowed on free tier
-  external_node_modules = ["busboy", "openai", "@netlify/functions"]
+
+[functions."chat"]
+  timeout = 10
+
+[functions."upload"]
+  timeout = 10
 
 [[redirects]]
   from = "/api/*"
@@ -21,7 +25,7 @@
     Access-Control-Allow-Headers = "Content-Type, X-File-Name"
 
 [dev]
-  framework = "vite"         # ✅ You are using Vite, not CRA
-  targetPort = 5173          # ✅ Vite default port
+  framework = "vite"
+  targetPort = 5173
   functionsPort = 9999
   autoLaunch = true
