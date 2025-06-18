@@ -5,8 +5,8 @@
 
 [functions]
   node_bundler = "esbuild"
+  timeout = 10  # ✅ Max allowed on free tier
   external_node_modules = ["busboy", "openai", "@netlify/functions"]
-  timeout = 30 # seconds (max 10 for free tier, consider upgrading for larger files)
 
 [[redirects]]
   from = "/api/*"
@@ -21,16 +21,7 @@
     Access-Control-Allow-Headers = "Content-Type, X-File-Name"
 
 [dev]
-  framework = "create-react-app"
-  targetPort = 3000
+  framework = "vite"         # ✅ You are using Vite, not CRA
+  targetPort = 5173          # ✅ Vite default port
   functionsPort = 9999
   autoLaunch = true
-
-# Environment variables (reference only - set these in Netlify UI)
-[context.production.environment]
-  OPENAI_KEY = "your_production_key"
-  ASSISTANT_ID = "your_assistant_id"
-
-[context.deploy-preview.environment]
-  OPENAI_KEY = "your_preview_key"
-  ASSISTANT_ID = "your_preview_assistant_id"
