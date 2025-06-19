@@ -1,37 +1,39 @@
 
+/* ===== CSS Variables ===== */
 :root {
   --primary: #0a2540;
   --secondary: #00d4ff;
   --accent: #fdb913;
   --light-bg: #f8f9fa;
-  --dark-text: #2c3e50;
+  --dark-text: #ffffff;
   --card-bg: #1c2b45;
-  --text-light: white;
+  --border-radius: 12px;
 }
 
+/* ===== Base Layout ===== */
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 2rem;
   background: var(--primary);
-  color: var(--text-light);
+  color: var(--dark-text);
 }
 
 header {
   text-align: center;
-  padding-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 header h1 {
   color: var(--secondary);
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 1rem;
 }
 
 header img {
   max-width: 400px;
   width: 100%;
-  border-radius: 16px;
+  border-radius: var(--border-radius);
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   animation: float 4s ease-in-out infinite;
 }
@@ -46,9 +48,9 @@ header p {
   margin: 0 auto;
   font-size: 1.1rem;
   padding: 0 1rem;
-  color: var(--text-light);
 }
 
+/* ===== Filters and Search ===== */
 .search-box {
   display: flex;
   justify-content: center;
@@ -81,6 +83,7 @@ header p {
   cursor: pointer;
 }
 
+/* ===== Prompt Grid ===== */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -91,9 +94,9 @@ header p {
 .card {
   background: var(--card-bg);
   padding: 1rem;
-  border-radius: 16px;
+  border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s;
 }
 
 .card:hover {
@@ -125,6 +128,7 @@ a:hover {
   text-decoration: underline;
 }
 
+/* ===== Chat Button and Iframe ===== */
 #chat-button {
   position: fixed;
   bottom: 1.5rem;
@@ -137,6 +141,7 @@ a:hover {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
 }
 
 #chat-iframe {
@@ -152,6 +157,7 @@ a:hover {
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 
+/* ===== Toggle Buttons ===== */
 .toggle-btn, .lang-btn {
   position: fixed;
   top: 1rem;
@@ -161,6 +167,7 @@ a:hover {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .toggle-btn {
