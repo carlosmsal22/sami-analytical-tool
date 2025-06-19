@@ -1,28 +1,25 @@
 
-/* === SAMI AI Styles === */
 :root {
   --primary: #0a2540;
   --secondary: #00d4ff;
   --accent: #fdb913;
-  --light-bg: #f9f9f9;
-  --dark-bg: #0a2540;
-  --text-light: white;
-  --text-dark: #333;
+  --light-bg: #f8f9fa;
+  --dark-text: #2c3e50;
   --card-bg: #1c2b45;
-  --border-radius: 12px;
+  --text-light: white;
 }
 
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 2rem;
-  background: var(--dark-bg);
+  background: var(--primary);
   color: var(--text-light);
 }
 
 header {
   text-align: center;
-  margin-bottom: 2rem;
+  padding-top: 2rem;
 }
 
 header h1 {
@@ -34,7 +31,7 @@ header h1 {
 header img {
   max-width: 400px;
   width: 100%;
-  border-radius: var(--border-radius);
+  border-radius: 16px;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   animation: float 4s ease-in-out infinite;
 }
@@ -49,6 +46,7 @@ header p {
   margin: 0 auto;
   font-size: 1.1rem;
   padding: 0 1rem;
+  color: var(--text-light);
 }
 
 .search-box {
@@ -93,7 +91,7 @@ header p {
 .card {
   background: var(--card-bg);
   padding: 1rem;
-  border-radius: var(--border-radius);
+  border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   transition: transform 0.2s ease;
 }
@@ -163,7 +161,6 @@ a:hover {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-  color: var(--primary);
 }
 
 .toggle-btn {
@@ -172,18 +169,4 @@ a:hover {
 
 .lang-btn {
   right: 8rem;
-}
-
-.light-mode {
-  background: var(--light-bg);
-  color: var(--text-dark);
-}
-
-.light-mode .card {
-  background: white;
-  color: var(--text-dark);
-}
-
-.light-mode a {
-  color: var(--primary);
 }
