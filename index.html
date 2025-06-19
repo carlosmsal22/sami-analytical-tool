@@ -2,30 +2,43 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAMI AI - Menú de Prompts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAMI AI - Inicio</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+
+  <!-- 🔐 User Status & Auth Buttons -->
+  <div id="user-status" style="position: fixed; top: 1rem; left: 1rem; z-index: 1000;">
+    <span id="user-email" style="color: #fdb913;"></span>
+    <button id="loginBtn" class="login-button">Iniciar Sesión</button>
+    <button id="logoutBtn" class="login-button" style="display:none">Cerrar Sesión</button>
+  </div>
+
+  <!-- 💡 Header SAMI AI -->
   <header>
-    <h1>SAMI AI - Menú de Prompts</h1>
-    <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI" />
-    <p>
-      <strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a explorar nuevas ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.
-    </p>
+    <h1>SAMI AI – Menú de Prompts</h1>
+    <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI">
+    <p><strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a explorar ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a Latinoamérica.</p>
   </header>
+
+  <!-- 🔍 Search + Filtros -->
+  <button class="toggle-btn" onclick="toggleMode()">Modo Claro/Oscuro</button>
+  <button class="lang-btn" onclick="toggleLang()">Español / English</button>
 
   <div class="search-box">
     <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
   </div>
-
   <div class="filters" id="categoryFilters"></div>
   <div class="grid" id="promptGrid"></div>
 
   <button id="chat-button" onclick="toggleIframe()">Ask SAMI AI</button>
   <iframe id="chat-iframe" src="https://chat.openai.com/g/g-W0JlyXEDn-sami-ai-advanced-analytical-tool" allow="clipboard-write"></iframe>
 
+  <!-- 👇 Lógica JavaScript -->
   <script>
+    // Language toggle + Prompt categories
     let currentLang = 'es';
     let activeCategory = 'all';
 
@@ -40,26 +53,14 @@
           "Ideas innovadoras para viajeros Gen Z",
           "Servicios con IA para educación remota",
           "Usa Blue Ocean Strategy para repensar los kits de comida"
-        ]},
-        { category: "🧠 Aplicar Marcos Estratégicos", key: "frameworks", items: [
-          "Usa Jobs to Be Done para mejorar una app de productividad",
-          "Aplica el modelo Kano a una tienda online",
-          "Utiliza TRIZ para resolver cuellos de botella logísticos"
-        ]},
-        { category: "📈 Explorar Tendencias Emergentes", key: "trends", items: [
-          "Tendencias de innovación 2025 en energía renovable",
-          "Tres señales débiles en la industria de la moda",
-          "Aplicaciones transversales de la IA generativa"
-        ]},
-        { category: "🛠 Prototipar y Validar", key: "prototype", items: [
-          "Plan de prueba para servicio por suscripción",
-          "MVP rápido para un coach de bienestar con IA",
-          "Ideas para validar startups en etapa temprana"
-        ]},
-        { category: "🌐 Inspiración Intersectorial", key: "inspiration", items: [
-          "¿Qué puede aprender el retail del FinTech?",
-          "Aplica Design Thinking de salud a educación",
-          "Ideas del gaming para aprendizaje virtual"
+        ]}
+        // Añade más si necesitas
+      ],
+      en: [
+        { category: "🔍 Discover Unmet Needs", key: "needs", items: [
+          "Identify unmet customer needs in the wellness industry",
+          "What pain points exist in digital banking today?",
+          "Help me analyze user feedback to spot hidden opportunities"
         ]}
       ]
     };
@@ -72,7 +73,6 @@
       allBtn.innerText = lang === 'es' ? 'Todos' : 'All';
       allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); };
       container.appendChild(allBtn);
-
       prompts[lang].forEach(section => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
@@ -90,10 +90,20 @@
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-        const links = items.map(text => `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank">${text}</a></li>`).join('');
+        const links = items.map(text => `<li><a href="chat.html?prompt=${encodeURIComponent(text)}">${text}</a></li>`).join('');
         card.innerHTML = `${header}<ul>${links}</ul>`;
         grid.appendChild(card);
       });
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
+      renderFilters(currentLang); renderPrompts(currentLang);
     }
 
     function filterPrompts() {
@@ -110,6 +120,45 @@
       iframe.style.display = iframe.style.display === 'block' ? 'none' : 'block';
     }
 
+    // Netlify Identity logic
+    if (window.netlifyIdentity) {
+      netlifyIdentity.on("init", user => updateUserUI(user));
+      netlifyIdentity.on("login", user => updateUserUI(user));
+      netlifyIdentity.on("logout", () => updateUserUI(null));
+    }
+
+    function updateUserUI(user) {
+      const email = document.getElementById('user-email');
+      const loginBtn = document.getElementById('loginBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      if (user) {
+        const roles = user.app_metadata.roles || [];
+        email.textContent = `👋 Bienvenido, ${user.email} (${roles.join(', ')})`;
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+        if (roles.includes('admin')) enableAdminTools();
+      } else {
+        email.textContent = '';
+        loginBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+      }
+    }
+
+    function enableAdminTools() {
+      alert('🛠 Admin activo: puedes ver herramientas avanzadas aquí.');
+      // Aquí podrías habilitar botones ocultos, links especiales, etc.
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      netlifyIdentity.open();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      netlifyIdentity.logout();
+    });
+
+    // Init
     renderFilters(currentLang);
     renderPrompts(currentLang);
   </script>
