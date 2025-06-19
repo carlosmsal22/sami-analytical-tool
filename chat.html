@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat con SAMI AI</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -24,7 +24,6 @@
       margin-bottom: 1rem;
       font-size: 1.1rem;
       color: #fdb913;
-      word-wrap: break-word;
     }
     .chat-iframe {
       width: 100%;
@@ -59,41 +58,87 @@
 <body>
   <div class="chat-container">
     <h1>SAMI AI Chat</h1>
-    <div id="promptText" class="prompt-box">Cargando prompt...</div>
+    <div id="promptText" class="prompt-box"></div>
 
+    <!-- 📁 File Upload -->
+    <form id="fileUploadForm">
+      <input type="file" id="fileInput" accept=".txt,.csv,.xlsx" />
+      <button type="submit">Subir y analizar</button>
+    </form>
+    <pre id="fileContent" style="text-align:left; background:#111; padding:1em; border-radius:10px;"></pre>
+
+    <!-- 🌐 Web Scraping -->
+    <form id="scrapeForm" style="margin-top: 2rem;">
+      <input type="text" id="urlInput" placeholder="Ingresa una URL para analizar" style="width: 80%; padding: 0.5rem;" />
+      <button type="submit">Analizar contenido web</button>
+    </form>
+    <pre id="scrapedContent" style="text-align:left; background:#111; padding:1em; border-radius:10px; margin-top: 1rem;"></pre>
+
+    <!-- 🔄 Loader + GPT iframe -->
     <div id="loader" class="loader">
       <div class="dot"></div>
       <div class="dot"></div>
       <div class="dot"></div>
     </div>
-
     <iframe id="chatFrame" class="chat-iframe" src="" style="display:none" allow="clipboard-write"></iframe>
   </div>
 
+  <!-- 🚀 Scripts -->
   <script>
+    // Get prompt from URL
     function getPromptFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get('prompt') || '';
     }
 
     const prompt = getPromptFromURL();
-    const promptBox = document.getElementById('promptText');
+    document.getElementById('promptText').textContent = prompt;
+
+    // Plausible log
+    if (window.plausible) plausible('prompt-started', { props: { prompt } });
+
+    // GPT iframe load
     const chatFrame = document.getElementById('chatFrame');
     const loader = document.getElementById('loader');
-
-    promptBox.textContent = prompt;
-
-    // Log prompt usage with Plausible
-    if (window.plausible) {
-      plausible('prompt-started', { props: { prompt } });
-    }
-
-    // Load GPT iframe (update the link when you deploy your own GPT)
     setTimeout(() => {
-  chatFrame.src = "https://chatgpt.com/g/g-W0JlyXEDn-sami-ai-advanced-analytical-tool"; // ← YOUR FINAL GPT LINK
-  chatFrame.style.display = 'block';
-  loader.style.display = 'none';
-}, 2000);
+      chatFrame.src = "https://chatgpt.com/g/g-W0JlyXEDn-sami-ai-advanced-analytical-tool";
+      chatFrame.style.display = 'block';
+      loader.style.display = 'none';
+    }, 2000);
+
+    // 📁 File upload handling
+    document.getElementById('fileUploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('fileInput');
+      if (!fileInput.files.length) return alert("Selecciona un archivo");
+
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+
+      const res = await fetch("/.netlify/functions/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await res.json();
+      document.getElementById('fileContent').textContent = result.text || "No se pudo analizar el archivo";
+    });
+
+    // 🌐 Scrape URL handling
+    document.getElementById('scrapeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url) return alert("Por favor, ingresa una URL válida");
+
+      const res = await fetch("/.netlify/functions/scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url })
+      });
+
+      const result = await res.json();
+      document.getElementById('scrapedContent').textContent = result.text || "No se pudo extraer el contenido";
+    });
   </script>
 </body>
 </html>

@@ -261,7 +261,7 @@
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-        const links = items.map(text => `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" target="_blank" onclick="plausible('prompt-click', {props:{lang:'${lang}',cat:'${key}'}})">${text}</a></li>`).join('');
+        const links = items.map(text => `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank" onclick="plausible('prompt-click', {props:{lang:'${lang}',cat:'${key}'}})">${text}</a></li>`).join('');
         card.innerHTML = `${header}<ul>${links}</ul>`;
         grid.appendChild(card);
       });
