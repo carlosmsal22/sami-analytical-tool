@@ -1,10 +1,13 @@
 
+/* === SAMI AI Styles === */
 :root {
   --primary: #0a2540;
   --secondary: #00d4ff;
   --accent: #fdb913;
+  --light-bg: #f9f9f9;
   --dark-bg: #0a2540;
-  --light-text: white;
+  --text-light: white;
+  --text-dark: #333;
   --card-bg: #1c2b45;
   --border-radius: 12px;
 }
@@ -14,7 +17,7 @@ body {
   margin: 0;
   padding: 2rem;
   background: var(--dark-bg);
-  color: var(--light-text);
+  color: var(--text-light);
 }
 
 header {
@@ -92,6 +95,7 @@ header p {
   padding: 1rem;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
 }
 
 .card:hover {
@@ -159,6 +163,7 @@ a:hover {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
+  color: var(--primary);
 }
 
 .toggle-btn {
@@ -168,27 +173,17 @@ a:hover {
 .lang-btn {
   right: 8rem;
 }
-@media (max-width: 768px) {
-  .search-box input {
-    width: 90%;
-  }
 
-  .grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
-  }
+.light-mode {
+  background: var(--light-bg);
+  color: var(--text-dark);
+}
 
-  header img {
-    max-width: 300px;
-  }
+.light-mode .card {
+  background: white;
+  color: var(--text-dark);
+}
 
-  .toggle-btn, .lang-btn {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  #chat-iframe {
-    width: 90%;
-    right: 5%;
-  }
+.light-mode a {
+  color: var(--primary);
 }

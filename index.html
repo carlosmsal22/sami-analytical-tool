@@ -11,7 +11,11 @@
   <header>
     <h1>SAMI AI - Menú de Prompts</h1>
     <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI" />
-    <p><strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a explorar nuevas ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.</p>
+    <p>
+      <strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing,
+      estrategia y desarrollo de productos a explorar nuevas ideas, detectar necesidades no satisfechas y 
+      aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.
+    </p>
   </header>
 
   <button class="toggle-btn" onclick="toggleMode()">Claro/Oscuro</button>
@@ -20,6 +24,7 @@
   <div class="search-box">
     <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
   </div>
+
   <div class="filters" id="categoryFilters"></div>
   <div class="grid" id="promptGrid"></div>
 
@@ -122,7 +127,8 @@
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-        const links = items.map(text => `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank">${text}</a></li>`).join('');
+        const links = items.map(text =>
+          `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank">${text}</a></li>`).join('');
         card.innerHTML = `${header}<ul>${links}</ul>`;
         grid.appendChild(card);
       });
@@ -131,16 +137,8 @@
     function toggleLang() {
       currentLang = currentLang === 'es' ? 'en' : 'es';
       document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
-      renderFilters(currentLang); renderPrompts(currentLang);
-    }
-
-    function filterPrompts() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.getElementsByClassName('card');
-      for (let card of cards) {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(input) ? '' : 'none';
-      }
+      renderFilters(currentLang);
+      renderPrompts(currentLang);
     }
 
     function toggleMode() {
@@ -150,6 +148,15 @@
     function toggleIframe() {
       const iframe = document.getElementById('chat-iframe');
       iframe.style.display = iframe.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function filterPrompts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('card');
+      for (let card of cards) {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(input) ? '' : 'none';
+      }
     }
 
     renderFilters(currentLang);
