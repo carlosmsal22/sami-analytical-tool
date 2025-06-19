@@ -4,29 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>SAMI AI - Menú de Prompts</title>
-  <link rel="stylesheet" href="styles-sami-ai.css" />
+  <link rel="stylesheet" href="styles.css" />
   <script defer data-domain="sami-ai-colombia.netlify.app" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
   <header>
     <h1>SAMI AI - Menú de Prompts</h1>
-    <div class="image-container">
-      <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI" />
-    </div>
-    <p>
-      <strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing,
-      estrategia y desarrollo de productos a explorar nuevas ideas, detectar necesidades no satisfechas y aplicar
-      marcos de innovación adaptados a diversas industrias y contextos en América Latina.
-    </p>
+    <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI" />
+    <p><strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a explorar nuevas ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.</p>
   </header>
 
   <button class="toggle-btn" onclick="toggleMode()">Claro/Oscuro</button>
   <button class="lang-btn" onclick="toggleLang()">Español / English</button>
 
   <div class="search-box">
-    <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts..." />
+    <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
   </div>
-
   <div class="filters" id="categoryFilters"></div>
   <div class="grid" id="promptGrid"></div>
 
@@ -129,23 +122,16 @@
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-        const links = items.map(text =>
-          `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank">${text}</a></li>`
-        ).join('');
+        const links = items.map(text => `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank">${text}</a></li>`).join('');
         card.innerHTML = `${header}<ul>${links}</ul>`;
         grid.appendChild(card);
       });
     }
 
-    function toggleMode() {
-      document.body.classList.toggle('light-mode');
-    }
-
     function toggleLang() {
       currentLang = currentLang === 'es' ? 'en' : 'es';
       document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
-      renderFilters(currentLang);
-      renderPrompts(currentLang);
+      renderFilters(currentLang); renderPrompts(currentLang);
     }
 
     function filterPrompts() {
@@ -155,6 +141,10 @@
         const text = card.textContent.toLowerCase();
         card.style.display = text.includes(input) ? '' : 'none';
       }
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
     }
 
     function toggleIframe() {
