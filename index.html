@@ -2,31 +2,168 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAMI AI - Menú de Prompts</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>SAMI AI</title>
+  <script defer data-domain="carlosmsal22.github.io/sami-analytical-tool" src="https://plausible.io/js/script.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #0a2540;
+      color: white;
+    }
+    .light-mode {
+      background: #ffffff;
+      color: #0a2540;
+    }
+    .toggle-btn, .lang-btn {
+      position: fixed;
+      top: 1rem;
+      background-color: #fdb913;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .toggle-btn { right: 1rem; }
+    .lang-btn { right: 8rem; }
+    h1 {
+      text-align: center;
+      color: #00d4ff;
+    }
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .search-box input {
+      width: 60%;
+      padding: 0.6rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+    }
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      gap: 0.5rem;
+    }
+    .filter-btn {
+      background-color: #00d4ff;
+      color: #0a2540;
+      font-weight: bold;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: #1c2b45;
+      padding: 1rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .category {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+      color: #fdb913;
+    }
+    ul { list-style: none; padding-left: 1.2rem; }
+    li { margin-bottom: 0.4rem; }
+    a {
+      color: #00d4ff;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    #chat-button {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #00d4ff;
+      color: #0a2540;
+      border: none;
+      border-radius: 50px;
+      padding: 0.8rem 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    #chat-iframe {
+      display: none;
+      position: fixed;
+      bottom: 5rem;
+      right: 1.5rem;
+      width: 350px;
+      height: 500px;
+      border: none;
+      border-radius: 12px;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+    header { 
+      text-align: center; 
+      margin-bottom: 2rem; 
+    }
+    header h1 { 
+      color: #00d4ff; 
+      font-size: 2.2rem; 
+      margin-bottom: 0.5rem; 
+    }
+    header img { 
+      max-width: 400px; 
+      width: 100%; 
+      margin: 1rem auto; 
+      border-radius: 16px; 
+      box-shadow: 0 0 10px rgba(0,0,0,0.3); 
+    }
+    header p { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      font-size: 1.1rem; 
+      padding: 0 1rem; 
+    }
+  </style>
 </head>
 <body>
   <header>
+  <div class="header-content"> <!-- New wrapper div -->
     <h1>SAMI AI - Menú de Prompts</h1>
-    <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI" />
+    <div class="image-container"> <!-- New container for the image -->
+      <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI" />
+    </div>
     <p>
-      <strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a explorar nuevas ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.
+      <strong>SAMI AI</strong> es una herramienta impulsada por IA diseñada para ayudar a equipos de marketing, estrategia y desarrollo de productos a 
+      explorar nuevas ideas, detectar necesidades no satisfechas y aplicar marcos de innovación adaptados a diversas industrias y contextos en América Latina.
     </p>
-  </header>
+  </div>
+</header>
 
+  <button class="toggle-btn" onclick="toggleMode()">Modo Claro/Oscuro</button>
+  <button class="lang-btn" onclick="toggleLang()">Español / English</button>
+  
   <div class="search-box">
     <input type="text" id="searchInput" onkeyup="filterPrompts()" placeholder="Buscar prompts...">
   </div>
-
   <div class="filters" id="categoryFilters"></div>
   <div class="grid" id="promptGrid"></div>
 
   <button id="chat-button" onclick="toggleIframe()">Ask SAMI AI</button>
-  <iframe id="chat-iframe" src="https://chatgpt.com/g/g-W0JlyXEDn-sami-ai-advanced-analytical-tool" allow="clipboard-write"></iframe>
-
-  <button class="lang-btn" onclick="toggleLang()">ES / EN</button>
-  <button class="toggle-btn" onclick="toggleDarkMode()">🌓</button>
+  <iframe id="chat-iframe" src="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" allow="clipboard-write"></iframe>
 
   <script>
     let currentLang = 'es';
@@ -88,7 +225,7 @@
         ]},
         { category: "🛠 Prototype and Test", key: "prototype", items: [
           "Create a user testing plan for a new subscription service",
-          "What’s a quick MVP for an AI-powered wellness coach?",
+          "What's a quick MVP for an AI-powered wellness coach?",
           "Suggest ways to validate early-stage startup ideas"
         ]},
         { category: "🌐 Cross-Sector Inspiration", key: "inspiration", items: [
@@ -105,13 +242,13 @@
       const allBtn = document.createElement('button');
       allBtn.className = 'filter-btn';
       allBtn.innerText = lang === 'es' ? 'Todos' : 'All';
-      allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); };
+      allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); plausible('filter-click', { props: { category: 'all' }}); };
       container.appendChild(allBtn);
       prompts[lang].forEach(section => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         btn.innerText = section.category;
-        btn.onclick = () => { activeCategory = section.key; renderPrompts(lang); };
+        btn.onclick = () => { activeCategory = section.key; renderPrompts(lang); plausible('filter-click', { props: { category: section.key }}); };
         container.appendChild(btn);
       });
     }
@@ -123,36 +260,36 @@
         if (activeCategory !== 'all' && activeCategory !== key) return;
         const card = document.createElement('div');
         card.className = 'card';
-        const header = `<div class="category">${category}</div>`;
-        const links = items.map(text =>
-          `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank">${text}</a></li>`
-        ).join('');
-        card.innerHTML = `${header}<ul>${links}</ul>`;
+        const header = <div class="category">${category}</div>;
+        const links = items.map(text => <li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" target="_blank" onclick="plausible('prompt-click', {props:{lang:'${lang}',cat:'${key}'}})">${text}</a></li>).join('');
+        card.innerHTML = ${header}<ul>${links}</ul>;
         grid.appendChild(card);
       });
     }
 
-    function filterPrompts() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      document.querySelectorAll('.card').forEach(card => {
-        card.style.display = card.textContent.toLowerCase().includes(input) ? '' : 'none';
-      });
-    }
-
-    function toggleIframe() {
-      const iframe = document.getElementById('chat-iframe');
-      iframe.style.display = iframe.style.display === 'block' ? 'none' : 'block';
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
     }
 
     function toggleLang() {
       currentLang = currentLang === 'es' ? 'en' : 'es';
       document.getElementById('searchInput').placeholder = currentLang === 'es' ? 'Buscar prompts...' : 'Search prompts...';
-      renderFilters(currentLang);
-      renderPrompts(currentLang);
+      renderFilters(currentLang); renderPrompts(currentLang);
+      plausible('lang-toggle', { props: { to: currentLang } });
     }
 
-    function toggleDarkMode() {
-      document.body.classList.toggle('light-mode');
+    function filterPrompts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('card');
+      for (let card of cards) {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(input) ? '' : 'none';
+      }
+    }
+
+    function toggleIframe() {
+      const iframe = document.getElementById('chat-iframe');
+      iframe.style.display = iframe.style.display === 'block' ? 'none' : 'block';
     }
 
     renderFilters(currentLang);

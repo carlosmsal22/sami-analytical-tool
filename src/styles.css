@@ -396,8 +396,6 @@ header p {
 
 .toggle-btn { right: 1rem; }
 .lang-btn { right: 8rem; }
-
-/* ===== Responsive Adjustments ===== */
 /* ===== Centered & Animated Image ===== */
 .image-container {
   display: flex;
@@ -423,6 +421,7 @@ header p {
   }
 }
 
+/* ===== Responsive Adjustments ===== */
 @media (max-width: 768px) {
   body {
     padding: 1rem;

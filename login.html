@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAMI AI Colombia</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>SAMI AI</h1>
+    <img src="RoboticPantherProwl_simple_compose_01-ezgif.com-loop-count-1.gif" alt="SAMI AI" />
+    <p><strong>SAMI AI</strong> es una herramienta avanzada para ayudar a equipos de estrategia y marketing a identificar oportunidades, crear conceptos y analizar datos estratégicos para América Latina.</p>
+  </header>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Buscar módulo o función...">
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn" data-category="todos">Todos</button>
+    <button class="filter-btn" data-category="Estrategia">Estrategia</button>
+    <button class="filter-btn" data-category="Innovación">Innovación</button>
+    <button class="filter-btn" data-category="Consumo">Consumo</button>
+    <button class="filter-btn" data-category="Análisis">Análisis</button>
+  </div>
+
+  <div class="grid" id="promptGrid">
+    <!-- Las tarjetas se insertarán dinámicamente desde script.js -->
+  </div>
+
+  <button id="chat-button">🤖 Chat en Vivo</button>
+  <iframe id="chat-iframe" src="https://sami-chat.netlify.app"></iframe>
+
+  <button class="lang-btn" onclick="toggleLang()">🌐 EN</button>
+  <button class="toggle-btn" onclick="toggleDarkMode()">🌓</button>
+
+  <script src="script.js"></script>
+  <script>
+    // Chat toggle
+    document.getElementById('chat-button').addEventListener('click', () => {
+      const iframe = document.getElementById('chat-iframe');
+      iframe.style.display = iframe.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Idioma
+    function toggleLang() {
+      alert("Este botón cambiará entre EN/ES en futuras versiones.");
+    }
+
+    // Modo Oscuro
+    function toggleDarkMode() {
+      document.body.classList.toggle('light-mode');
+    }
+  </script>
+</body>
+</html>
