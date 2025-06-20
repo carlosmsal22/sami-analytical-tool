@@ -92,7 +92,7 @@
         ]},
         { category: "🛠 Prototype and Test", key: "prototype", items: [
           "Create a user testing plan for a new subscription service",
-          "What's a quick MVP for an AI-powered wellness coach?",
+          "What’s a quick MVP for an AI-powered wellness coach?",
           "Suggest ways to validate early-stage startup ideas"
         ]},
         { category: "🌐 Cross-Sector Inspiration", key: "inspiration", items: [
@@ -128,10 +128,10 @@
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-const links = items.map(text => 
-  `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" target="_blank" onclick="plausible('prompt-click', {props:{lang:'${lang}',cat:'${key}'}})">${text}</a></li>`
-).join('');
-card.innerHTML = `${header}<ul>${links}</ul>`;
+        const links = items.map(text => 
+          `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" target="_blank">${text}</a></li>`
+        ).join('');
+        card.innerHTML = `${header}<ul>${links}</ul>`;
         grid.appendChild(card);
       });
     }
