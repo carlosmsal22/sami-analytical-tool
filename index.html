@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>SAMI AI</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Compact fixes (optional, keep if needed) */
+    .light-mode { background: #ffffff; color: #0a2540; }
+    .toggle-btn, .lang-btn {
+      position: fixed;
+      top: 1rem;
+      background-color: #fdb913;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .toggle-btn { right: 1rem; }
+    .lang-btn { right: 8rem; }
+  </style>
 </head>
 <body>
   <header>
@@ -109,13 +125,20 @@
       const allBtn = document.createElement('button');
       allBtn.className = 'filter-btn';
       allBtn.innerText = lang === 'es' ? 'Todos' : 'All';
-      allBtn.onclick = () => { activeCategory = 'all'; renderPrompts(lang); };
+      allBtn.onclick = () => {
+        activeCategory = 'all';
+        renderPrompts(lang);
+      };
       container.appendChild(allBtn);
+
       prompts[lang].forEach(section => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         btn.innerText = section.category;
-        btn.onclick = () => { activeCategory = section.key; renderPrompts(lang); };
+        btn.onclick = () => {
+          activeCategory = section.key;
+          renderPrompts(lang);
+        };
         container.appendChild(btn);
       });
     }
@@ -123,21 +146,26 @@
     function renderPrompts(lang) {
       const grid = document.getElementById('promptGrid');
       grid.innerHTML = '';
+
       prompts[lang].forEach(({ category, items, key }) => {
         if (activeCategory !== 'all' && activeCategory !== key) return;
+
         const card = document.createElement('div');
         card.className = 'card';
         const header = `<div class="category">${category}</div>`;
-        const links = items.map(text => 
-          `<li><a href="https://chat.openai.com/g/g-NHiNlyxxG-innovation-scout" target="_blank">${text}</a></li>`
+        const links = items.map(text =>
+          `<li><a href="chat.html?prompt=${encodeURIComponent(text)}" target="_blank">${text}</a></li>`
         ).join('');
         card.innerHTML = `${header}<ul>${links}</ul>`;
         grid.appendChild(card);
       });
     }
 
-    function toggleMode() {
-      document.body.classList.toggle('light-mode');
+    function filterPrompts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(input) ? '' : 'none';
+      });
     }
 
     function toggleLang() {
@@ -147,13 +175,8 @@
       renderPrompts(currentLang);
     }
 
-    function filterPrompts() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.getElementsByClassName('card');
-      for (let card of cards) {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(input) ? '' : 'none';
-      }
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
     }
 
     function toggleIframe() {
