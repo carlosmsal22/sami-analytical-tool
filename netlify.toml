@@ -5,7 +5,7 @@
 
 [functions]
   node_bundler = "esbuild"
-  # ✅ DO NOT include timeout here — that’s the issue
+  included_files = ["netlify/functions/uploadSav.py"]
 
 [[redirects]]
   from = "/api/*"

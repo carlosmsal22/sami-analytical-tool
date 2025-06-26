@@ -1,0 +1,14 @@
+{
+  "promptSelectionMenu": true,
+  "bilingualUI": true,
+  "gptChatIntegration": true,
+  "plausibleAnalytics": true,
+  "darkModeToggle": true,
+  "realGPTiframe": true,
+  "fileUploadAndAnalysis": false,
+  "exportOptions": false,
+  "authLogin": false,
+  "dataAnalysisAndCharts": false,
+  "webScrapingAssistant": false,
+  "promptHistory": false
+}

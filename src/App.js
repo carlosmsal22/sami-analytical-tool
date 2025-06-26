@@ -1,99 +1,65 @@
 
-import React, { useState } from 'react';
-import './App.css';
-
-const prompts = [
-  {
-    category: "🔍 Discover Unmet Needs",
-    items: [
-      "Identify unmet customer needs in the wellness industry",
-      "What pain points exist in digital banking today?",
-      "Help me analyze user feedback to spot hidden opportunities"
-    ]
-  },
-  {
-    category: "💡 Brainstorm New Concepts",
-    items: [
-      "Generate 5 innovative product ideas for Gen Z travelers",
-      "What are AI-powered services for remote education?",
-      "Use Blue Ocean Strategy to rethink meal kit delivery"
-    ]
-  },
-  {
-    category: "🧠 Apply Innovation Frameworks",
-    items: [
-      "Use Jobs to Be Done to improve our productivity app",
-      "Apply the Kano Model to features in my eCommerce platform",
-      "Show me how TRIZ can solve bottlenecks in logistics"
-    ]
-  },
-  {
-    category: "📈 Explore Emerging Trends",
-    items: [
-      "What are 2025 innovation trends in renewable energy?",
-      "Give me 3 weak signals in the fashion industry",
-      "Analyze cross-industry applications of generative AI"
-    ]
-  },
-  {
-    category: "🛠 Prototype and Test",
-    items: [
-      "Create a user testing plan for a new subscription service",
-      "What’s a quick MVP for an AI-powered wellness coach?",
-      "Suggest ways to validate early-stage startup ideas"
-    ]
-  },
-  {
-    category: "🌐 Cross-Sector Inspiration",
-    items: [
-      "What can retail learn from FinTech innovation?",
-      "Apply design thinking from healthcare to education",
-      "Transfer ideas from gaming to virtual learning platforms"
-    ]
-  }
-];
+import { useEffect, useState } from 'react';
+import FileUpload from './components/FileUpload';
 
 function App() {
-  const [search, setSearch] = useState('');
-  const [darkMode, setDarkMode] = useState(true);
+  const [features, setFeatures] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [result, setResult] = useState(null);
 
-  const filteredPrompts = prompts.map(section => ({
-    ...section,
-    items: section.items.filter(item =>
-      item.toLowerCase().includes(search.toLowerCase())
-    )
-  })).filter(section => section.items.length > 0);
+  useEffect(() => {
+    fetch('/features.json')
+      .then((res) => res.json())
+      .then((data) => setFeatures(data))
+      .catch((err) => console.error('Error loading features:', err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <div style={{ padding: '2rem' }}>Loading...</div>;
 
   return (
-    <div className={darkMode ? 'App dark' : 'App light'}>
-      <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
-      </button>
-      <h1>Innovation Scout - Prompt Menu</h1>
-      <div className="search-box">
-        <input
-          type="text"
-          placeholder="Search prompts..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-      </div>
-      <div className="grid">
-        {filteredPrompts.map(section => (
-          <div className="card" key={section.category}>
-            <div className="category">{section.category}</div>
-            <ul>
-              {section.items.map((item, index) => (
-                <li key={index}>
-                  <a href="https://chatgpt.com/g/g-NHiNlyxxG-innovation-scout" target="_blank" rel="noopener noreferrer">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+    <div style={{ padding: '2rem', fontFamily: 'Segoe UI, sans-serif' }}>
+      <h1>SAMI AI - Feature Dashboard</h1>
+
+      {/* ✅ File Upload + GPT Analysis */}
+      {features.fileUploadAndAnalysis && (
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h3>📁 File Upload + Analysis</h3>
+          <FileUpload onProcess={(data) => setResult(data)} />
+        </div>
+      )}
+
+      {/* ✅ Export Options Placeholder */}
+      {features.exportOptions && (
+        <div id="export-buttons" style={{ marginBottom: '1.5rem' }}>
+          <h3>📄 Export Options</h3>
+          <button>Export as PDF</button>{' '}
+          <button>Export as CSV</button>
+        </div>
+      )}
+
+      {/* ✅ Web Scraping Assistant Placeholder */}
+      {features.webScrapingAssistant && (
+        <div id="scraper" style={{ marginBottom: '1.5rem' }}>
+          <h3>🌐 Web Scraping Assistant</h3>
+          <p>Enter a URL to summarize and analyze with GPT.</p>
+          {/* Scraper logic will go here later */}
+        </div>
+      )}
+
+      {/* ✅ Analysis Results */}
+      {result && (
+        <div style={{ marginTop: '2rem' }}>
+          <h2>🧠 Resultado del Análisis:</h2>
+          <pre>{JSON.stringify(result, null, 2)}</pre>
+        </div>
+      )}
+
+      {/* ✅ Debug Info */}
+      <details style={{ marginTop: '2rem' }}>
+        <summary>🛠 Feature Flags (Debug)</summary>
+        <pre>{JSON.stringify(features, null, 2)}</pre>
+      </details>
     </div>
   );
 }
