@@ -2,37 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Innovation Scout</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAMI AI - Prompt Dashboard</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-
-    <script>
-      let featureFlags = {};
-
-      function applyFeatureFlags() {
-        if (!featureFlags.fileUploadAndAnalysis) {
-          const fileUploadUI = document.getElementById('file-upload');
-          if (fileUploadUI) fileUploadUI.style.display = 'none';
-        }
-
-        if (!featureFlags.exportOptions) {
-          const exportUI = document.getElementById('export-buttons');
-          if (exportUI) exportUI.style.display = 'none';
-        }
-
-        // Add more toggles as needed...
-      }
-
-      fetch('features.json')
-        .then(res => res.json())
-        .then(data => {
-          featureFlags = data;
-          applyFeatureFlags();
-        });
-    </script>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
