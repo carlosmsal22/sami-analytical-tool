@@ -5,7 +5,7 @@
   "plausibleAnalytics": true,
   "darkModeToggle": true,
   "realGPTiframe": true,
-  "fileUploadAndAnalysis": false,
+  "fileUploadAndAnalysis": true,
   "exportOptions": false,
   "authLogin": false,
   "dataAnalysisAndCharts": false,
